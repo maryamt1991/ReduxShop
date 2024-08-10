@@ -1,4 +1,4 @@
-import { useProducts } from "../context/ProductContext";
+//import { useProducts } from "../context/ProductContext";
 import styles from "../pages/ProductsPage.module.css"
 import Card from "../components/Card";
 import Loader from "../components/Loader"
@@ -9,7 +9,8 @@ import SearchBox from "../components/SearchBox";
 import SideBar from "../components/SideBar";
 
 function ProductsPage() {
-  const products=useProducts();
+ // const products=useProducts();
+ const products=[];
   
   const [search,setSearch]=useState("");
   const [displayed,setDisplayed]=useState([]);
