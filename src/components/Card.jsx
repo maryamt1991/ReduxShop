@@ -5,16 +5,16 @@ import { productQuantity, shortenText } from '../helpers/helper';
 import styles from "./Card.module.css"
 //import { useCart } from '../context/CartContext';
 import { MdDeleteOutline } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeItem, decrease, addItem, increase } from '../features/cart/cartSlice';
 
 function Card({ data }) {
   const { id, title, image, price } = data;
   //const [state,dispatch]=useCart();
-//const quantity=productQuantity(state,id);
-const quantity=0;
-console.log(quantity)
-  const clickHandler=(type)=>{
-   // dispatch({type,payload:data})
-  }
+  const state = useSelector(store => store.cart)
+  const quantity = productQuantity(state, id);
+  const dispatch = useDispatch()
+  console.log(state)
   return (
     <div className={styles.card}>
       <img src={image} alt={title} />
@@ -25,19 +25,19 @@ console.log(quantity)
           <TbListDetails />
         </Link>
         <div>
-        {
-            quantity>1 &&(<button onClick={()=>clickHandler("DECREASE")}>-</button>)
+          {
+            quantity > 1 && (<button onClick={() => dispatch(decrease(data))}>-</button>)
           }
           {!!quantity && <span>{quantity}</span>}
-           {
-            quantity===1 &&( <button onClick={()=>clickHandler("REMOVE-ITEM")}><MdDeleteOutline /></button>)
+          {
+            quantity === 1 && (<button onClick={() => dispatch(removeItem(data))}><MdDeleteOutline /></button>)
           }
-          {quantity===0?(<button onClick={()=>clickHandler("ADD-ITEM")}><TbShoppingBagCheck /></button>):
-          <button onClick={()=>clickHandler("INCREASE")}>+</button>
+          {quantity === 0 ? (<button onClick={() => dispatch(addItem(data))}><TbShoppingBagCheck /></button>) :
+            <button onClick={() => dispatch(increase(data))}>+</button>
           }
-         
-          
-          
+
+
+
         </div>
       </div>
     </div>
