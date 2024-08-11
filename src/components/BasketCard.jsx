@@ -2,8 +2,17 @@ import React from 'react'
 import { shortenText } from '../helpers/helper'
 import { MdDeleteOutline } from 'react-icons/md'
 import styles from "./BasketCard.module.css"
+import { useDispatch } from 'react-redux'
+import {
+    decrease,
+    addItem,
+    removeItem,
+    checkout,
+    increase
+} from "../features/cart/cartSlice"
 
-function BasketCard({data,clickHandler}) {
+function BasketCard({data}) {
+    const dispatch=useDispatch()
     const {image,title,quantity}=data;
   return (
     <div className={styles.card}>
@@ -12,16 +21,16 @@ function BasketCard({data,clickHandler}) {
         <div className={styles.actions}>
             {
                 quantity===1 && (
-                    <button onClick={()=>clickHandler("REMOVE_ITEM",data)}>
+                    <button onClick={()=>dispatch(removeItem(data))}>
                         <MdDeleteOutline/>
                     </button>
                 )
             }
             {
-                quantity>1 && (<button onClick={()=>clickHandler("DECREASE" ,data)}>-</button>)
+                quantity>1 && (<button onClick={()=>dispatch(decrease(data))}>-</button>)
             }
             <span>{quantity}</span>
-            <button onClick={()=>clickHandler("INCREASE" ,data)}>+</button>
+            <button onClick={()=>dispatch(increase(data))}>+</button>
         </div>
     </div>
   )
